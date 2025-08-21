@@ -38,8 +38,9 @@ const Dashboard: React.FC = () => {
         supabase!.rpc('get_card_status_counts')
       ]);
 
-      if (dashboardStats) {
-        setStats(dashboardStats);
+      if (dashboardStats && Array.isArray(dashboardStats) && dashboardStats.length > 0) {
+        // FIX: Merge new stats with default state to prevent undefined properties.
+        setStats(prevStats => ({ ...prevStats, ...dashboardStats[0] }));
       }
       if (transacoesRecentesData) setRecentes(transacoesRecentesData as any);
       if (vendasPorMesData) setSalesChartData(vendasPorMesData as any);
